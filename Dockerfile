@@ -1,10 +1,7 @@
-FROM flaskdemo
+FROM openwhisk/python3action
 LABEL maintainer="maple7yuan@gmail.com"
-COPY . src
-RUN yum -y install epel-release
-RUN yum -y install python-pip
+COPY . /src
 WORKDIR /src
 RUN pip install --no-cache-dir -i https://pypi.tuna.tsinghua.edu.cn/simple -r requirements.txt
-EXPOSE 8081
-ENTRYPOINT ["python", "./app.py"]
-
+EXPOSE 8080
+CMD ["gunicorn","app:app","-c","./gunicorn.conf.py"]
